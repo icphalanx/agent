@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/godbus/dbus"
 	"github.com/icphalanx/agent/types"
-	"log"
 )
 
 type PackageKitReporter struct {
@@ -76,16 +75,6 @@ func (pkr PackageKitReporter) Metrics() ([]types.Metric, error) {
 	metrics := []types.Metric{}
 
 	installedFilter := PackageKitFilterBitField(PK_FILTER_ENUM_INSTALLED)
-
-	mych := make(chan *dbus.Signal, 10)
-	pkr.dbusConn.Signal(mych)
-	defer pkr.dbusConn.Signal(mych) // unregister
-	go func() {
-		for {
-			s := <-mych
-			log.Println("RECV", s)
-		}
-	}()
 
 	// fetch number of packages needing updates
 	if needUpdatePackages, err := pkr.countPackages("GetUpdates", 0); err == nil {
