@@ -6,24 +6,22 @@ import (
 	"log"
 )
 
+var (
+	Upstream = flag.String("upstream", "127.0.0.1:13890", "upstream location")
+
+	CertLocation    = flag.String("certLocation", "phagent.crt", "location to store certificate")
+	PrivKeyLocation = flag.String("privKeyLocation", "phagent.key", "location to store private key")
+
+	CALocation = flag.String("caLocation", "phalanx.crt", "location of CA")
+)
+
 func main() {
 	flag.Parse()
 
-	host, err := agent.Run()
+	reporter, err := agent.NewRPCAgent(*Upstream, *CALocation, *CertLocation, *PrivKeyLocation)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	log.Println(host)
-
-	reporters, err := host.Reporters()
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	for _, reporter := range reporters {
-		log.Println(reporter.Id())
-		m, e := reporter.Metrics()
-		log.Println("\t", m, e)
-	}
+	log.Fatalln(reporter.Run())
 }

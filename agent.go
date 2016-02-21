@@ -5,6 +5,6 @@ import (
 	"github.com/icphalanx/agent/types"
 )
 
-func Run() (types.Host, error) {
+func MakeLocalAgent() (types.Host, error) {
 	return linux.Create()
 }

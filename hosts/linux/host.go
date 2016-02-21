@@ -3,6 +3,7 @@ package linux
 import (
 	"github.com/icphalanx/agent/reporters"
 	_ "github.com/icphalanx/agent/reporters/packagekit"
+	_ "github.com/icphalanx/agent/reporters/syslogsocket"
 	"github.com/icphalanx/agent/types"
 	"os"
 )

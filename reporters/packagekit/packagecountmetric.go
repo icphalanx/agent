@@ -10,11 +10,11 @@ type PackageCountMetric struct {
 	humanName string
 	humanDesc string
 
-	packageCount uint
+	packageCount int
 
 	shouldWarn   bool
-	warningLevel uint
-	dangerLevel  uint
+	warningLevel int
+	dangerLevel  int
 }
 
 func (pcm PackageCountMetric) Id() string {
@@ -25,7 +25,7 @@ func (PackageCountMetric) MetricType() types.MetricType {
 	return types.METRICTYPE_UNCOUNTABLE
 }
 
-func (pcm PackageCountMetric) Value() uint {
+func (pcm PackageCountMetric) Value() int {
 	return pcm.packageCount
 }
 

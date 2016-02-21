@@ -1,5 +1,7 @@
 package types
 
+import "time"
+
 type Host interface {
 	Id() string
 
@@ -73,4 +75,15 @@ type Reporter interface {
 
 	// returns a list of subhosts under this host
 	Hosts() ([]Host, error)
+
+	// returns a channel which spews out loglines
+	LogLines() <-chan ReporterLogLine
+}
+
+type ReporterLogLine struct {
+	Host      Host
+	Reporter  Reporter
+	LogLine   string
+	Timestamp time.Time
+	Tags      []string
 }

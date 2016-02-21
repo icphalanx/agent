@@ -47,8 +47,8 @@ func (pkr PackageKitReporter) createTransaction(cb func(dbus.BusObject, <-chan *
 	return cb(trans, ch)
 }
 
-func (pkr PackageKitReporter) countPackages(txCall string, filter PackageKitFilterBitField) (uint, error) {
-	count := uint(0)
+func (pkr PackageKitReporter) countPackages(txCall string, filter PackageKitFilterBitField) (int, error) {
+	count := 0
 	txCall = fmt.Sprintf("org.freedesktop.PackageKit.Transaction.%s", txCall)
 	err := pkr.createTransaction(func(trans dbus.BusObject, ch <-chan *dbus.Signal) error {
 		err := trans.Call(txCall, 0, filter).Err
@@ -139,4 +139,8 @@ func (pkr PackageKitReporter) Metrics() ([]types.Metric, error) {
 
 func (PackageKitReporter) Hosts() ([]types.Host, error) {
 	return []types.Host{}, nil
+}
+
+func (PackageKitReporter) LogLines() <-chan types.ReporterLogLine {
+	return nil
 }
